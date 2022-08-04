@@ -1,2 +1,3 @@
 # SCP-372
-SCP:SL ServerMod plugin
+
+Originally by @ShingekiNoRex updated by me by request of a Discord user.
