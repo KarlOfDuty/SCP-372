@@ -31,7 +31,7 @@ namespace SCP_372
 
 		public override void Register()
 		{
-			((Plugin)this).AddEventHandlers((IEventHandler)(object)new EventHandler((Plugin)(object)this), (Priority)50);
+			AddEventHandlers(new EventHandler(this), Priority.NORMAL);
 		}
 	}
 
