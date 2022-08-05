@@ -2,7 +2,6 @@
 using Smod2.API;
 using Smod2.EventHandlers;
 using Smod2.Events;
-using Smod2.EventSystem.Events;
 using System.Collections.Generic;
 using Smod2.Attributes;
 
@@ -16,7 +15,7 @@ namespace SCP_372
 		version = "4.0.0",
 		SmodMajor = 3,
 		SmodMinor = 10,
-		SmodRevision = 5
+		SmodRevision = 6
 	)]
 	class SCP372Plugin : Plugin
 	{
@@ -84,11 +83,12 @@ namespace SCP_372
 
 		public void OnShoot(PlayerShootEvent ev)
 		{
-			if (ev.Player.TeamRole.Team == TeamType.TUTORIAL)
+			//plugin.Logger.Warn("SCP-372", "ONSHOOT " + ev.Weapon.ItemType + " " + ev.HitType);
+			if (ev.Player.PlayerRole.Team == TeamType.TUTORIAL)
 			{
 				foreach(ShowGhost ghost in ghostList)
 				{
-					if (ghost.playerId == ev.Player.PlayerId)
+					if (ghost.playerId == ev.Player.PlayerID)
 					{
 						ghost.remainingTime = 3f;
 						ev.Player.SetGhostMode(false);
@@ -96,7 +96,7 @@ namespace SCP_372
 					}
 				}
 
-				ghostList.Add(new ShowGhost { playerId = ev.Player.PlayerId, remainingTime = 3f });
+				ghostList.Add(new ShowGhost { playerId = ev.Player.PlayerID, remainingTime = 3f });
 				ev.Player.SetGhostMode(false);
 			}
 		}
@@ -108,7 +108,7 @@ namespace SCP_372
 				ghostList[i].remainingTime -= 0.02f;
 				if (ghostList[i].remainingTime <= 0)
 				{
-					foreach(Player player in plugin.pluginManager.Server.GetPlayers())
+					foreach(Player player in plugin.PluginManager.Server.GetPlayers())
 					{
 						if (player.PlayerID == ghostList[i].playerId && player.PlayerRole.Team == TeamType.TUTORIAL)
 						{
